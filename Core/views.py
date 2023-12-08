@@ -1,18 +1,11 @@
 from django.shortcuts import render,redirect
 from .forms import PredictForm
 # Create your views here.
-from playsound import playsound
 
-import random
 import re
-import numpy as np
 import pandas as pd
-from tqdm import tqdm
-import seaborn as sns
-import matplotlib.pyplot as plt
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics import f1_score
 from sklearn.ensemble import RandomForestClassifier
 
 emotions_dict = {
