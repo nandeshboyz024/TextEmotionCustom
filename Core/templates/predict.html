@@ -1,0 +1,177 @@
+{% extends "./home.html" %}
+{% load static %}
+
+{% block addCSS %}
+    <link rel="stylesheet" href="{% static 'css/predict.css' %}">
+{% endblock addCSS %}
+
+{% block Content %}
+<div class="text-right" style="margin:10px">
+	<button id="toggleButton">Play Music</button>
+</div>
+<div class="container">
+    <div class = "row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div style="text-align:center; margin-top:10px;margin-bottom:10px;">
+                    <h2 style="font-weight:bold;background: linear-gradient(to right, #FCC978, #FB5EA3); -webkit-background-clip: text; color: transparent;font-family:Helvetica Neue;">Ask Your</h2>
+                    <h2 style="font-weight:bold;background: linear-gradient(to right, #FB5CA6, #FA00FF); -webkit-background-clip: text; color: transparent;font-family:Helvetica Neue;">Query</h2>
+                    <div>
+                        <form action="" method = "POST">
+                            {% csrf_token %}
+                            <div class="container mb-3">
+                                <div class="row">
+                                    <div class="col-sm-6 mt-3">
+                                        {{form.query}}
+                                    </div>
+                                    <div class="col-sm-6 mt-3">
+                                        {{form.dataset}}
+                                    </div>
+                                </div>
+                            </div>
+                                <input id="predict" type="submit" value="Predict" onclick="return validateForm();">
+                        </form>
+                        <div id="warning-message" style="text-align:center;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <h3>Chance of each emotion</h3>
+                <div class ="row">
+                    <div class="col-3">
+                        <h6>joy</h6>
+                    </div>
+                    <div class="col-9">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:{{chances.0}}%;background-color: #39e75f;color:black;" area-valuenow="{{chances.0}}" aria-valuemin="0" area-valuemax="100">
+                                <span style="position: absolute; right: 0; top: 0; bottom: 0; padding-top:8px; padding-right:16px;">{{chances.0}}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class ="row">
+                    <div class="col-3">
+                        <h6>sadness</h6>
+                    </div>
+                    <div class="col-9">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:{{chances.1}}%;background-color: blue;opacity: 0.8;color:black;" area-valuenow="{{chances.1}}" aria-valuemin="0" area-valuemax="100">
+                                <span style="position: absolute; right: 0; top: 0; bottom: 0; padding-top:8px; padding-right:16px;">{{chances.1}}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class ="row">
+                    <div class="col-3">
+                        <h6>anger</h6>
+                    </div>
+                    <div class="col-9">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:{{chances.2}}%;background-color: red;opacity: 0.8;color:black;" area-valuenow="{{chances.2}}" aria-valuemin="0" area-valuemax="100">
+                                <span style="position: absolute; right: 0; top: 0; bottom: 0; padding-top:8px; padding-right:16px;">{{chances.2}}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class ="row">
+                    <div class="col-3">
+                        <h6>fear</h6>
+                    </div>
+                    <div class="col-9">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:{{chances.3}}%;background-color: green;opacity: 0.8;color:black;" area-valuenow="{{chances.3}}" aria-valuemin="0" area-valuemax="100">
+                                <span style="position: absolute; right: 0; top: 0; bottom: 0; padding-top:8px; padding-right:16px;">{{chances.3}}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class ="row">
+                    <div class="col-3">
+                        <h6>love</h6>
+                    </div>
+                    <div class="col-9">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:{{chances.4}}%;background-color: #fc0beb;opacity: 0.8;color:black;" area-valuenow="{{chances.4}}" aria-valuemin="0" area-valuemax="100">
+                                <span style="position: absolute; right: 0; top: 0; bottom: 0; padding-top:8px; padding-right:16px;">{{chances.4}}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class ="row">
+                    <div class="col-3">
+                        <h6>surprise</h6>
+                    </div>
+                    <div class="col-9">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:{{chances.5}}%;background-color: gold;opacity: 0.8;color:black;" area-valuenow="{{chances.5}}" aria-valuemin="0" area-valuemax="100">
+                                <span style="position: absolute; right: 0; top: 0; bottom: 0;padding-top:8px; padding-right:16px;">{{chances.5}}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-4">
+            <div class="card" style="text-align:center;">
+                <h2 id="song_id" style="font-weight:bold;background: linear-gradient(to right, #FCC978, #FB5EA3); -webkit-background-clip: text; color: transparent;font-family:Helvetica Neue;" data-song="{{bgm_path}}" >My Prediction:</h2>
+                <h2 style="font-weight:bold;background: linear-gradient(to right, #FB5CA6, #FA00FF); -webkit-background-clip: text; color: transparent;font-family:Helvetica Neue;">{{pred}} </h2>
+                <img src="{% static img_path %}" alt="predicted emotion" srcset="">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock Content %}
+
+{% block addJS %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let song = document.getElementById("song_id");
+        let s = song.getAttribute('data-song');
+        const audio = new Audio("{% static '' %}"+s);
+        audio.loop=true;
+        toggleButton.addEventListener('click', function () {
+            if (audio.paused) {
+                audio.play();
+                toggleButton.textContent="Pause Music";
+            } else {
+                audio.pause();
+                toggleButton.textContent="Play Music"
+            }
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        // Disable the 'Select dataset' option after the page has loaded
+        var disAble1 = {{disAble1|yesno:"true,false"}};
+        var disAble2 = {{disAble2|yesno:"true,false"}};
+        document.querySelector('#id_dataset option[value="0"]').disabled = true;
+        document.querySelector('#id_query option[value="0"]').disabled=true;
+        document.querySelector('#id_dataset option[value="1"]').disabled=disAble1;
+        document.querySelector('#id_dataset option[value="2"]').disabled=disAble2;
+      });
+      function validateForm() {
+        var selectedValue = document.querySelector('#id_dataset').value;
+        var selectedQuery = document.querySelector('#id_query').value;           
+        if (selectedValue ==='0'){
+            var warningElement = document.getElementById('warning-message');
+            warningElement.innerHTML = 'Please select a trained dataset';
+            warningElement.style.color = 'red';
+            setTimeout(function () {
+                warningElement.innerHTML = ''; // Clear the warning message
+            }, 1000);
+          return false;  // prevent form submission
+        }
+        if(selectedQuery === '0'){
+            var warningElement = document.getElementById('warning-message');
+            warningElement.innerHTML = 'Please select a query';
+            warningElement.style.color = 'red';
+            setTimeout(function () {
+                warningElement.innerHTML = ''; // Clear the warning message
+            }, 1000);
+          return false;
+        }
+        return true;  // allow form submission
+      }
+</script>
+{% endblock addJS %}

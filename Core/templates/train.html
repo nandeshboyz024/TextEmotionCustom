@@ -1,0 +1,91 @@
+{% extends "./home.html" %}
+{% load static %}
+{% block Title %}
+    Train
+{% endblock Title %}
+
+{% block addCSS %}
+    <link rel="stylesheet" href="{% static 'css/train.css' %}">
+{% endblock addCSS %}
+
+
+{% block Content %}
+    <div class="container" style="margin-top:10px;">
+        <div class="row">
+            <div class="col-lg-6" style="font-family:Helvetica Neue;text-align:justify;font-size:20px;">
+                <p>This model is like a child. Whatever you teach it, it will learn. The more you teach it, the better it will learn, and it will tell you as well as it has learned when you ask.</p>
+                <p>If It makes incorrect predictions, train it and teach it what is right. In other words, add new data to the training data.</p>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'images/bert.png' %}" style="width:400px;" alt="" srcset="">
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class='container'>
+        <div class='row'>
+            <div class='col-sm-6' style="text-align:center;margin-top:10px;">
+                <form action="{% url 'train_dataset1' %}" method="get">
+                    <button class="btn_style" id="train1" onclick="return show1();">Train Dataset-1</button>
+                </form>
+            </div>
+            <div class='col-sm-6' style="text-align:center;margin-top:10px;">
+                <form action="{% url 'train_dataset2' %}" method="get" >
+                    <button class="btn_style" id="train2" onclick="return show2();">Train Dataset-2</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id= "warning-message" style="text-align:center;"></div>
+    {% comment %} 
+    {% if data_size %}
+        <div style="text-align:center;">
+            <form action="{% url 'train_data' %}" method="get">
+                <button class="btn_style" id="trainmy">Train Your Data</button>
+            </form>
+        </div>
+    {% else %}
+    <p style="color:red;text-align:center;font-family:Helvetica Neue;"><i> <b>Important: </b>You have not added any data in your dataset, so you are not able to train model.</i></p>
+    {% endif %} {% endcomment %}
+    
+{% endblock Content %}
+
+{% block addJS %}
+<script>
+    function show1() {
+        var disAble1 = {{disAble1|yesno:"true,false"}};       
+        if (!disAble1){
+            var warningElement = document.getElementById('warning-message');
+            warningElement.innerHTML = 'Already up to date';
+            warningElement.style.color = 'red';
+            setTimeout(function () {
+                warningElement.innerHTML = ''; // Clear the warning message
+            }, 1000);
+          return false;  // prevent form submission
+        }
+        var warningElement = document.getElementById('warning-message');
+        warningElement.innerHTML = 'Model is training...';
+        warningElement.style.color = 'green';
+        return true;  // allow form submission
+      }
+      function show2() {
+        var disAble2 = {{disAble2|yesno:"true,false"}};       
+        if (!disAble2){
+            var warningElement = document.getElementById('warning-message');
+            warningElement.innerHTML = 'Already up to date';
+            warningElement.style.color = 'red';
+            setTimeout(function () {
+                warningElement.innerHTML = ''; // Clear the warning message
+            }, 1000);
+          return false;  // prevent form submission
+        }
+        var warningElement = document.getElementById('warning-message');
+        warningElement.innerHTML = 'Model is training...';
+        warningElement.style.color = 'green';
+        return true;  // allow form submission
+      }
+</script>
+{% endblock addJS %}
+
+
+

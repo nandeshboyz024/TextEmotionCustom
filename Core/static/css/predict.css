@@ -1,0 +1,62 @@
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+
+#predict{
+  color: white;
+  border-radius: 15px;
+  color: white;
+  background: linear-gradient(to right,#5170ff,#ff66c4);
+}
+#predict:hover{
+  font-weight: bold;
+  transform: scale(1.01);
+}
+
+#toggleButton{
+  color: white;
+  border-radius: 15px;
+  color: white;
+  background: linear-gradient(to right,#5170ff,#ff66c4);
+}
+#toggleButton:hover{
+  font-weight: bold;
+  transform: scale(1.01);
+}
+
+/* Style the select element */
+#id_query{
+  padding: 5px;
+  font-size:20px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  background-color: #05c60b92;
+  width: 150px;
+}
+
+/* Style the options */
+#id_query option {
+  text-align: left;
+  background-color: #fff;
+  color: #333;
+}
+
+#id_dataset{
+  padding: 5px;
+  font-size:20px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  background-color: #05c60b92;
+  width: 180px;
+}
+
+/* Style the options */
+#id_dataset option {
+  text-align: left;
+  background-color: #fff;
+  color: #333;
+}
