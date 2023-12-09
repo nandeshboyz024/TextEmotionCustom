@@ -14,18 +14,19 @@ Choices=[
     ('1','dataset-1'),
     ('2','dataset-2'),
 ]
+
 qChoices=[
     ('0','select query'),
     ('1','I feel blessed to know this family'),
-    ('2','I want take a chance to label up'),
-    ('3','I feel is he generous'),
-    ('4','I feel transcendant and splendid'),
-    ('5','I assumed it would feel casual'),
-    ('6','I watched the news at the tv'),
-    ('7','I am feeling stressed and more than a bit anxious'),
-    ('8','I feel overwhelmed how about you'),
-    ('9','I was feeling whether it be mad sad disappointed or peaceful'),
-    ('10','I feel blessed beyond blessed to share my life with you each week')
+    ('2','I am most defensive when I feel most threatened'),
+    ('3','What the hell is going on'),
+    ('4','I still feel horrible;'),
+    ('5','I feel less threatened by the world'),
+    ('6','I am feeling a bit cranky today'),
+    ('7','I feel I have been loyal for my friend'),
+    ('8','I am feeling quite agitated irritated amp annoyed;'),
+    ('9','I feel like I am single handedly supporting the cupcake industry'),
+    ('10','I am feeling so nothing that I am not even getting agitated anymore')
 ]
 
 
