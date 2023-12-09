@@ -20,11 +20,11 @@ qChoices=[
     ('1','I feel blessed to know this family'),
     ('2','I am most defensive when I feel most threatened'),
     ('3','What the hell is going on'),
-    ('4','I still feel horrible;'),
+    ('4','I still feel horrible'),
     ('5','I feel less threatened by the world'),
     ('6','I am feeling a bit cranky today'),
     ('7','I feel I have been loyal for my friend'),
-    ('8','I am feeling quite agitated irritated amp annoyed;'),
+    ('8','I am feeling quite agitated irritated and annoyed'),
     ('9','I feel like I am single handedly supporting the cupcake industry'),
     ('10','I am feeling so nothing that I am not even getting agitated anymore')
 ]
