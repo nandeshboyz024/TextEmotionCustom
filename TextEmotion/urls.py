@@ -26,4 +26,5 @@ urlpatterns = [
     path('predict/',views.Predict_Views,name='predict'),
     path('train_dataset1/',views.train_dataset1,name='train_dataset1'),
     path('train_dataset2/',views.train_dataset2,name='train_dataset2'),    
+    path('conclusion/',views.Conclusion,name='conclusion'),
 ]

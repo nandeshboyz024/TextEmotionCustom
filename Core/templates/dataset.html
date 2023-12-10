@@ -11,6 +11,9 @@
 {% endblock addCSS %}
 
 {% block Content %}
+  <div style = "text-align:center;">
+    <h1 class="heading" style="text-align:center;background:radial-gradient(circle at 10% 20%, rgb(255, 12, 253) 0%, rgb(255, 241, 0) 80%); -webkit-background-clip: text; color: transparent;font-family:Helvetica Neue;display:inline;">Dataset Comparision</h1>
+  </div>
   {% comment %} <button class="btn_style" id="show">Show Custom Data</button>
   <div id = "data_cls" style="margin-top:15px;" data-items="{{items}}"></div>
   <h1 style="margin-top:20px;background:radial-gradient(circle at 10% 20%, rgb(255, 12, 253) 0%, rgb(255, 241, 0) 80%); -webkit-background-clip: text; color: transparent;font-family:Helvetica Neue;display: inline;">Create Your Own Dataset</h1>
@@ -69,24 +72,29 @@
   </div> {% endcomment %}
 
   <div class="container" style="margin-top:10px;">
-    <div class="row">
-        <div class="col-lg-6">
-            <canvas id="myChart1" aria-Label="chart" role="img" width="400" height="300" ></canvas>
-        </div>
-        <div class="col-lg-6">
-            <canvas id="myChart2" aria-Label="chart" role="img" width="400" height="300" ></canvas>
-        </div>
+    <div style="font-family:Helvetica Neue;text-align:justify;font-size:20px;">
+      <p>Let's Imagine you have two sets (datasets) of colorful toys, and each toy represents a different feeling. We have six feelings: joy, sadness, anger, fear, love, and surprise.</p>
+      <p>Now,let's say we have two groups of toys (datset-1 and dataset-2), and each of group has a different number of toys for each feeling.</p>
     </div>
-  </div>
-  <div class="container">
     <div class="row">
-        <div class="col-lg-6">
-            <canvas id="myChart3" aria-Label="chart" role="img" width="400" height="300" ></canvas>
+      <div class="col-lg-5">
+        <div style="font-family:Helvetica Neue;text-align:justify;font-size:20px;">
+          <h3>DataSet-1</h3>
+          <p>In the first group, we have a lot of happy toys (joy), a lot of sad toys (sadness), some mad toys (anger), a few scared toys (fear), some warm and fuzzy toys (love), and a few amazed toys (surprise).</p>
         </div>
-        <div class="col-lg-6">
-            <canvas id="myChart4" aria-Label="chart" role="img" width="400" height="300" ></canvas>
+        <canvas id="myChart1" aria-Label="chart" role="img" width="400" height="300" ></canvas>
+        <canvas id="myChart2" aria-Label="chart" role="img" width="400" height="300" ></canvas>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-6">
+        <div style="font-family:Helvetica Neue;text-align:justify;font-size:20px;">
+          <h3>DataSet-2</h3>
+          <p>In the second group, we have fewer happy toys (joy), a bit fewer sad toys (sadness), fewer mad toys (anger), even fewer scared toys (fear), almost the same number of warm and fuzzy toys (love), and fewer amazed toys (surprise).</p>
         </div>
-    </div>
+        <canvas id="myChart3" aria-Label="chart" role="img" width="400" height="300" ></canvas>
+        <canvas id="myChart4" aria-Label="chart" role="img" width="400" height="300" ></canvas>
+      </div>
+    <div class="row">
   </div>
 {% endblock Content %}
 

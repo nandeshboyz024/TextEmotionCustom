@@ -312,3 +312,6 @@ def train_dataset2(request):
     log_reg2 = train_model(RandomForestClassifier(random_state = 0), X_train2, y_train2)
     disAble2=False
     return redirect('train')
+
+def Conclusion(request):
+    return render(request,'conclusion.html')
