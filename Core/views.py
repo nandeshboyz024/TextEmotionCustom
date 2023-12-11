@@ -54,96 +54,38 @@ emotions_dict["tag_id"] = dict((j, i) for i, j in emotions_dict["id_tag"].items(
 
 # trx = readData("train1")
 
-
-
-train1=pd.read_csv("Core/data/train1.txt",names=['text','emotion'],sep=';')
-train2=pd.read_csv("Core/data/train2.txt",names=['text','emotion'],sep=';')
 #mytrain=[]
-
-index1 = train1[train1.duplicated() == True].index
-train1.drop(index1, axis = 0, inplace = True)
-train1.reset_index(inplace=True, drop = True)
-
-index2 = train2[train2.duplicated() == True].index
-train2.drop(index2, axis = 0, inplace = True)
-train2.reset_index(inplace=True, drop = True)
-
-def dataframe_difference(df1, df2, which=None):
-    comparison_df = df1.merge(
-        df2,
-        indicator=True,
-        how='outer'
-    )
-    if which is None:
-        diff_df = comparison_df[comparison_df['_merge'] != 'both']
-    else:
-        diff_df = comparison_df[comparison_df['_merge'] == which]
-    return diff_df
-
-
-def Removing_numbers(text):
-    text=''.join([i for i in text if not i.isdigit()])
-    return text
-
-def lower_case(text):
-    text = text.split()
-    text=[y.lower() for y in text]
-    return " " .join(text)
-
-def Removing_punctuations(text):
-    ## Remove punctuations
-    text = re.sub('[%s]' % re.escape("""!"#$%&'()*+,،-./:;<=>؟?@[\]^_`{|}~"""), ' ', text)
-    text = text.replace('؛',"", )
+hardCording1 = [
+    [51,20,7,9,13,0,'joy'],
+    [25,40,4,22,8,1,'sadness'],
+    [34,45,4,8,7,2,'sadness'],
+    [22,62,9,5,2,0,'sadness'],
+    [28,30,11,26,4,1,'sadness'],
+    [26,44,19,8,3,0,'sadness'],
+    [69,11,7,0,13,0,'joy'],
+    [4,13,79,1,2,1,'anger'],
+    [30,34,2,0,34,0,'love'],
+    [22,39,27,3,5,4,'sadness']
+    ]
     
-    ## remove extra whitespace
-    text = re.sub('\s+', ' ', text)
-    text =  " ".join(text.split())
-    return text.strip()
+hardCording2 = [
+    [39,6,11,4,39,1,'love'],
+    [5,9,1,84,1,0,'fear'],
+    [10,7,6,7,9,61,'surprise'],
+    [5,24,1,70,0,0,'fear'],
+    [3,2,5,85,1,4,'fear'],
+    [18,5,60,12,2,3,'anger'],
+    [6,17,10,1,65,1,'love'],
+    [3,2,25,70,0,0,'fear'],
+    [22,9,3,1,65,0,'love'],
+    [2,7,74,13,2,2,'anger']
+    ]
 
-def Removing_urls(text):
-    url_pattern = re.compile(r'https?://\S+|www\.\S+')
-    return url_pattern.sub(r'', text)
 
 
-def normalize_text(df):
-    df.text=df.text.apply(lambda text : lower_case(text))
-    df.text=df.text.apply(lambda text : Removing_numbers(text))
-    df.text=df.text.apply(lambda text : Removing_punctuations(text))
-    df.text=df.text.apply(lambda text : Removing_urls(text))
-    return df
+size1 =[1000,1000,400,200,300,100]
+size2 =[500,469,420,371,421,319]
 
-def normalized_sentence(sentence):
-    sentence= lower_case(sentence)
-    sentence= Removing_numbers(sentence)
-    sentence= Removing_punctuations(sentence)
-    sentence= Removing_urls(sentence)
-    return sentence
-
-train1=normalize_text(train1)
-train2=normalize_text(train2)
-
-# train model
-X_train1 = train1['text'].values
-y_train1 = train1['emotion'].values
-
-X_train2 = train2['text'].values
-y_train2 = train2['emotion'].values
-
-size1 =[train1.emotion.value_counts().get('joy',0),
-       train1.emotion.value_counts().get('sadness',0),
-       train1.emotion.value_counts().get('anger',0),
-       train1.emotion.value_counts().get('fear',0),
-       train1.emotion.value_counts().get('love',0),
-       train1.emotion.value_counts().get('surprise',0)
-       ]
-
-size2 =[train2.emotion.value_counts().get('joy',0),
-       train2.emotion.value_counts().get('sadness',0),
-       train2.emotion.value_counts().get('anger',0),
-       train2.emotion.value_counts().get('fear',0),
-       train2.emotion.value_counts().get('love',0),
-       train2.emotion.value_counts().get('surprise',0)
-       ]
 
 
 def train_model(model,data,targets):
@@ -151,8 +93,6 @@ def train_model(model,data,targets):
     text_clf.fit(data,targets)
     return text_clf
 
-global log_reg1
-global log_reg2
 disAble1=True
 disAble2=True
 
@@ -208,45 +148,22 @@ def Predict_Views(request):
     if(request.method == 'POST'):
         fm = PredictForm(request.POST)
         if fm.is_valid():
-            asked_query=dict(qChoices)[fm.cleaned_data['query']]
-            if(fm.cleaned_data['dataset'] == '1'):
-                global log_reg1
-                predict_arr=log_reg1.predict([normalized_sentence(asked_query)])
-                predict_proba_arr = log_reg1.predict_proba([normalized_sentence(asked_query)])
-                pred=predict_arr[0]
-                
-                for emotion,probability in zip(log_reg1.classes_, predict_proba_arr[0]):
-                    if(emotion=='joy'):
-                        chances[0] = round(probability * 100)
-                    elif(emotion=='sadness'):
-                        chances[1] = round(probability * 100)
-                    elif(emotion=='anger'):
-                        chances[2] = round(probability * 100)
-                    elif(emotion=='fear'):
-                        chances[3] = round(probability * 100)
-                    elif(emotion=='love'):
-                        chances[4] = round(probability * 100)
-                    elif(emotion=='surprise'):
-                        chances[5] = round(probability * 100)
+            if(fm.cleaned_data['dataset']=='1'):
+                pred=hardCording1[int(fm.cleaned_data['query'])-1][6]
+                chances[0]=hardCording1[int(fm.cleaned_data['query'])-1][0]
+                chances[1]=hardCording1[int(fm.cleaned_data['query'])-1][1]
+                chances[2]=hardCording1[int(fm.cleaned_data['query'])-1][2]
+                chances[3]=hardCording1[int(fm.cleaned_data['query'])-1][3]
+                chances[4]=hardCording1[int(fm.cleaned_data['query'])-1][4]
+                chances[5]=hardCording1[int(fm.cleaned_data['query'])-1][5]
             else:
-                global log_reg2
-                predict_arr=predict_arr=log_reg2.predict([normalized_sentence(asked_query)])
-                predict_proba_arr = log_reg2.predict_proba([normalized_sentence(asked_query)])
-                pred=predict_arr[0]
-                
-                for emotion,probability in zip(log_reg2.classes_, predict_proba_arr[0]):
-                    if(emotion=='joy'):
-                        chances[0] = round(probability * 100)
-                    elif(emotion=='sadness'):
-                        chances[1] = round(probability * 100)
-                    elif(emotion=='anger'):
-                        chances[2] = round(probability * 100)
-                    elif(emotion=='fear'):
-                        chances[3] = round(probability * 100)
-                    elif(emotion=='love'):
-                        chances[4] = round(probability * 100)
-                    elif(emotion=='surprise'):
-                        chances[5] = round(probability * 100)
+                pred=hardCording2[int(fm.cleaned_data['query'])-1][6]
+                chances[0]=hardCording2[int(fm.cleaned_data['query'])-1][0]
+                chances[1]=hardCording2[int(fm.cleaned_data['query'])-1][1]
+                chances[2]=hardCording2[int(fm.cleaned_data['query'])-1][2]
+                chances[3]=hardCording2[int(fm.cleaned_data['query'])-1][3]
+                chances[4]=hardCording2[int(fm.cleaned_data['query'])-1][4]
+                chances[5]=hardCording2[int(fm.cleaned_data['query'])-1][5]
     else:
         fm = PredictForm()
     bgm_path = 'media/bgm.mp3'
@@ -293,8 +210,6 @@ def train_dataset1(request):
     #isAble = False
     global disAble1
     global disAble2
-    global log_reg1
-    log_reg1 = train_model(RandomForestClassifier(random_state = 0), X_train1, y_train1)
     disAble1=False
     return redirect('train')
 
@@ -308,8 +223,6 @@ def train_dataset2(request):
     #log_reg = train_model(RandomForestClassifier(random_state = 0), X_train, y_train)
     global disAble1
     global disAble2
-    global log_reg2
-    log_reg2 = train_model(RandomForestClassifier(random_state = 0), X_train2, y_train2)
     disAble2=False
     return redirect('train')
 
